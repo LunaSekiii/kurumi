@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-nav">
+  <div class="menu-nav m-shadow">
     <v-list class="menu-nav-list">
       <v-list-item
         class="menu-nav-item"

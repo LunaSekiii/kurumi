@@ -4,10 +4,16 @@
       <v-card outlined @click.stop="addItem(item)" class="item-card">
         <v-card-title primary-title> {{ item.name }} </v-card-title>
         <v-card-subtitle> {{ item.price | price }} </v-card-subtitle>
-        <v-card-text>{{ item.extra.join(", ") || "" }}</v-card-text>
+        <v-card-text class="info-text">{{
+          item.extra.join(", ") || ""
+        }}</v-card-text>
       </v-card>
     </v-col>
-    <MenuSelectionDetialsVue :item="currentItem" ref="dialog"/>
+    <MenuSelectionDetialsVue
+      :item="currentItem"
+      :extra="extra || []"
+      ref="dialog"
+    />
   </v-row>
 </template>
 
@@ -67,5 +73,10 @@ export default {
   max-height: calc(100vh - 20px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+.info-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
