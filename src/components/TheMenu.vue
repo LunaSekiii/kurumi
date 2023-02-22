@@ -1,13 +1,13 @@
 <template>
   <v-row class="menu">
     <v-col cols="4" v-for="(item, i) in menu" :key="i">
-      <v-card outlined @click="addItem(item)" class="item-card">
+      <v-card outlined @click.stop="addItem(item)" class="item-card">
         <v-card-title primary-title> {{ item.name }} </v-card-title>
         <v-card-subtitle> {{ item.price | price }} </v-card-subtitle>
         <v-card-text>{{ item.extra.join(", ") || "" }}</v-card-text>
       </v-card>
     </v-col>
-    <MenuSelectionDetialsVue/>
+    <MenuSelectionDetialsVue :item="currentItem" ref="dialog"/>
   </v-row>
 </template>
 
@@ -26,11 +26,20 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      currentItem: {
+        name: "",
+        price: {},
+        extra: [],
+        remark: [],
+      },
+    };
   },
   methods: {
     addItem(item) {
       console.log(item);
+      this.currentItem = item;
+      this.$refs.dialog.switchDialog();
     },
   },
   filters: {
