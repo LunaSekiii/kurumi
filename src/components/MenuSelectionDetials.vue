@@ -36,7 +36,7 @@
           <v-col cols="2" v-for="remark in item.remarks" :key="remark">
             <v-chip
               :class="remarkIsActive(remark) ? 'active chip' : 'chip'"
-              @click="selectExtra(remark)"
+              @click="selectRemark(remark)"
               >{{ remark }}
             </v-chip>
           </v-col>
@@ -47,9 +47,9 @@
         <!-- <v-spacer/> -->
         <div class="count-box">
           <label class="count-label" for="count-input">数量</label>
-          <v-btn class="count-reduce" @click="count--" :disabled="count <= 1"
-            >-</v-btn
-          >
+          <v-btn class="count-reduce" @click="count--" :disabled="count <= 1">
+            -
+          </v-btn>
           <input
             type="text"
             v-model="count"
@@ -97,6 +97,14 @@ export default {
       this.currentRemark = [];
     },
     addItem() {
+      this.$bus.$emit("addItemToCart", {
+        item: this.item,
+        price: this.currentPrice,
+        extra: this.currentExtra,
+        remark: this.currentRemark,
+        count: this.count,
+        allExtra: this.extra,
+      });
       this.switchDialog();
     },
     extraIsActive(extra) {
@@ -108,7 +116,7 @@ export default {
     },
     remarkIsActive(remark) {
       var isExist = false;
-      this.currentExtra.forEach((value) => {
+      this.currentRemark.forEach((value) => {
         if (remark === value) isExist = true;
       });
       return isExist;
@@ -128,12 +136,12 @@ export default {
     },
     selectRemark(remark) {
       var isExist = false;
-      this.currentExtra = this.currentExtra.filter((value) => {
+      this.currentRemark = this.currentRemark.filter((value) => {
         if (value === remark) isExist = true;
         return value != remark;
       });
       if (!isExist) {
-        this.currentExtra.push(remark);
+        this.currentRemark.push(remark);
       }
     },
   },
@@ -142,7 +150,7 @@ export default {
       return (
         ((this.item.price[this.currentPrice] || 0) +
           this.extra.reduce((totalExtraPrice, extra) => {
-            console.log(totalExtraPrice, extra);
+            // console.log(totalExtraPrice, extra);
             if (this.extraIsActive(extra.name))
               return totalExtraPrice + extra.price;
             return totalExtraPrice;

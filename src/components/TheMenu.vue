@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     addItem(item) {
-      console.log(item);
+      // console.log(item);
       this.currentItem = item;
       this.$refs.dialog.switchDialog();
     },
@@ -73,6 +73,7 @@ export default {
   max-height: calc(100vh - 20px);
   overflow-x: hidden;
   overflow-y: auto;
+  align-content: flex-start;
 }
 .info-text {
   overflow: hidden;
